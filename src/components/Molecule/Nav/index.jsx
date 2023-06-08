@@ -1,7 +1,8 @@
 import React from 'react'
 
 import { Box, Stack } from '@mui/material';
-import ButtonNav from '../../Atom/ButtonNav';
+import { ButtonNav } from '../../Atom';
+
 
 export default function Nav() {
     return (
