@@ -1,0 +1,9 @@
+{
+    "compilerOptions": {
+      "baseUrl": "src",
+      "paths": {
+        "wiz-component-atom": ["components/Atom"]
+      }
+    }
+}
+  
