@@ -20,7 +20,8 @@ export const moviesAPI = createApi({
       query: (id) => `/movie/${id}?api_key=${API_KEY}`,
     }),
     getMovieBySearch: builder.query({
-      query: (search) => `/search/movie?api_key=${API_KEY}&query=${search}`,
+      query: ({ query, page }) =>
+        `/search/movie?api_key=${API_KEY}&query=${query}&page=${page}`,
     }),
   }),
 });
