@@ -12,7 +12,7 @@ export function CardDetails({ data }) {
   return (
     <Card sx={{ width: { lg: "50%", xs: '80%' }, borderRadius: "14px", backgroundColor: 'black' }}>
       <CardMedia
-        sx={{ height: { xs: '100vh', lg: '60vh' } }}
+        sx={{ height: { xs: '75vh', lg: '60vh' }, mt: { xs: 10 } }}
         image={REACT_BASE_IMG_URL + data}
         title="green iguana"
       />
