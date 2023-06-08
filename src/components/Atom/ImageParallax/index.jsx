@@ -22,7 +22,7 @@ export default function ImageParallax() {
 
     return (
         <div className="parallax" data-speed="2">
-            <img src='/Images/1.png' alt="Parallax Image" />
+            <img src='/Images/2.jpg' alt="Parallax Image" />
         </div>
     )
 }
