@@ -57,9 +57,9 @@ export default function Detail() {
                                     <Box sx={{ width: '75%', height: '50%', padding: 0, display: 'flex', justifyContent: 'center', textAlign: { xs: 'center', lg: 'left' }, flexDirection: 'column', mt: 8 }}>
                                         <TextDetail variant="h4">{dataMovies?.title}</TextDetail>
                                         <TextRelease year={dataMovies?.release_date.split('-')[0]} season='2' origin={dataMovies?.spoken_languages[0]?.english_name} />
-                                        <TextDetail externalStyle={{ mt: 2 }} variant="h5">{dataMovies?.overview}</TextDetail>
+                                        <TextDetail externalStyle={{ mt: 2, fontWeight: 300 }} variant="h5">{dataMovies?.overview}</TextDetail>
                                         <TextGenre data={dataMovies?.genres} />
-                                        <Button sx={{ mt: 5, textDecoration: 'none', px: 0, justifyContent: { xs: 'center', lg: 'left' } }}>Add To Favorite</Button>
+                                        <Button sx={{ mt: 5, textDecoration: 'none', color: 'white', px: 0, justifyContent: { xs: 'center', lg: 'left' } }}>Add To Favorite</Button>
                                     </Box>
                                 </Grid>
                             </>
