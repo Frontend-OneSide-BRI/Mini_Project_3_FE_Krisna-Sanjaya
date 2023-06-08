@@ -19,6 +19,9 @@ export const moviesAPI = createApi({
     getMovieById: builder.query({
       query: (id) => `/movie/${id}?api_key=${API_KEY}`,
     }),
+    getMovieBySearch: builder.query({
+      query: (search) => `/search/movie?api_key=${API_KEY}&query=${search}`,
+    }),
   }),
 });
 
@@ -26,5 +29,6 @@ export const {
   useGetMoviePopularQuery,
   useGetMovieUpcomingQuery,
   useGetMovieNowPlayingQuery,
-  useGetMovieByIdQuery
+  useGetMovieByIdQuery,
+  useGetMovieBySearchQuery,
 } = moviesAPI;

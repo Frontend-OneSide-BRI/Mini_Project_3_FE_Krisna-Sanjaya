@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Box, Grid, TextField } from '@mui/material'
 import { alpha, styled } from '@mui/material/styles';
@@ -9,8 +9,19 @@ import CardSection from '../../components/Organism/CardSection';
 import { CardMovies } from '../../components/Molecule/Card';
 import Nav from '../../components/Molecule/Nav';
 import { ImageParallax, Search } from '../../components/Atom';
+import { useGetMovieBySearchQuery } from '../../service/Movies';
 
 export default function Gallery() {
+
+    const [search, setSearch] = useState('')
+
+    const {
+        data: dataMovies,
+        isLoading: isLoadingMovies,
+        isSuccess: isSuccessMovies
+    } = useGetMovieBySearchQuery(search)
+
+    console.log(dataMovies)
 
     return (
         <>
@@ -23,8 +34,10 @@ export default function Gallery() {
                         <ImageParallax />
                     </Grid>
                     <Grid container sx={{ backgroundColor: 'black', py: 4, display: 'flex', flexDirection: 'column' }}>
-                        <Search />
-                        <CardSection text={"Your Search"} />
+                        <Search setSearch={setSearch} search={search} />
+                        {
+                            !isLoadingMovies && <CardSection text={"Your Search"} data={dataMovies.results} max={20} />
+                        }
                     </Grid>
                 </Grid>
             </Grid>
