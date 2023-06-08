@@ -7,26 +7,28 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Grid } from "@mui/material";
 import { useState } from "react";
+import { REACT_BASE_IMG_URL } from "../../../constants";
 
-export function CardDetails() {
+export function CardDetails({ data }) {
+  console.log(data)
   return (
     <Card sx={{ width: { lg: "50%", xs: '80%' }, borderRadius: "14px", backgroundColor: 'black' }}>
       <CardMedia
         sx={{ height: { xs: '100vh', lg: '60vh' } }}
-        image="https://img1.hotstarext.com/image/upload/f_auto,q_90,w_384/sources/r1/cms/prod/9626/889626-v"
+        image={REACT_BASE_IMG_URL + data}
         title="green iguana"
       />
     </Card>
   );
 }
 
-export function CardMovies() {
+export function CardMovies({ data }) {
   return (
     <Grid item xs={12} sm={6} md={4} lg={2} sx={{ mb: 2 }}>
       <Card sx={{ width: "100%", height: "100%", borderRadius: "14px" }}>
         <CardMedia
           sx={{ height: "40vh" }}
-          image="https://img1.hotstarext.com/image/upload/f_auto,q_90,w_384/sources/r1/cms/prod/9626/889626-v"
+          image={REACT_BASE_IMG_URL + data.poster_path}
           title="green iguana"
         />
       </Card>
@@ -34,7 +36,7 @@ export function CardMovies() {
   );
 }
 
-export function CardText() {
+export function CardText({ data }) {
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseEnter = () => {
@@ -56,7 +58,7 @@ export function CardText() {
             transition: 'opacity 1s',
             borderRadius: '14px'
           }}
-          image="https://img1.hotstarext.com/image/upload/f_auto,q_90,w_384/sources/r1/cms/prod/1419/1531419-h-e4edb087d448"
+          image={REACT_BASE_IMG_URL + data?.backdrop_path}
           title="green iguana"
         />
         <CardContent
@@ -68,10 +70,10 @@ export function CardText() {
             height: isHovered ? 'auto' : '0px'
           }}>
           <Typography gutterBottom variant="h5" component="div" color="white">
-            Sailer X - Trailer
+            {data?.original_title}
           </Typography>
           <Typography variant="body2" color="white">
-            Lizards are a widespread group
+            {data?.overview}
           </Typography>
         </CardContent>
       </Card>

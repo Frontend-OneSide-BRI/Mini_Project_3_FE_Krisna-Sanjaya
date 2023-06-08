@@ -3,14 +3,22 @@ import React from 'react'
 import { Box, Button, Grid, TextField, Typography } from '@mui/material'
 import CircleIcon from '@mui/icons-material/Circle';
 
-import CardSection from '../../components/Organism/CardSection';
 import { CardDetails, CardMovies } from '../../components/Molecule/Card';
 import Nav from '../../components/Molecule/Nav';
-import { ImageParallax, Search } from '../../components/Atom';
+
+import { useParams } from 'react-router-dom';
+import { useGetMovieByIdQuery } from '../../service/Movies';
 
 export default function Detail() {
 
-    const genre = ['Drama', 'Romance']
+    const { id } = useParams();
+
+    const {
+        data: dataMovies,
+        isLoading: isLoadingMovies,
+        isSuccess: isSuccessMovies
+    } = useGetMovieByIdQuery(id)
+    console.log(dataMovies)
 
     const TextDetail = ({ children, variant, externalStyle = null }) => {
         return (
@@ -25,8 +33,10 @@ export default function Detail() {
     }
 
     const TextGenre = ({ data }) => {
+        console.log(data)
+        const genre = data?.map(item => item.name)
         return (
-            <TextDetail variant='h5' externalStyle={{ mt: 2 }}>{data.join(' | ')}</TextDetail>
+            <TextDetail variant='h5' externalStyle={{ mt: 2 }}>{genre.join(' | ')}</TextDetail>
         )
     }
 
@@ -37,18 +47,24 @@ export default function Detail() {
             </Grid>
             <Grid xs={11} sx={{ minHeight: '100vh' }}>
                 <Grid container sx={{ backgroundColor: 'black', py: 4, display: 'flex', flexDirection: 'row', height: '100vh' }} spacing={10}>
-                    <Grid item xs={12} lg={6} sx={{ justifyContent: { xs: 'center', lg: 'right' }, display: 'flex', alignItems: 'center' }}>
-                        <CardDetails />
-                    </Grid>
-                    <Grid item xs={12} lg={6} sx={{ justifyContent: { xs: 'center', lg: 'left' }, display: 'flex', alignItems: { lg: 'center', xs: 'start' } }}>
-                        <Box sx={{ width: '75%', height: '50%', padding: 0, display: 'flex', textAlign: { xs: 'center', lg: 'left' }, flexDirection: 'column' }}>
-                            <TextDetail variant="h4">haloa</TextDetail>
-                            <TextRelease year='2020' season='2' origin='Western' />
-                            <TextDetail externalStyle={{ mt: 2 }} variant="h5">In a dystopian future, a young rebel discovers a hidden truth that shakes the foundations of society. With the fate of humanity at stake, they embark on a dangerous journey, battling formidable enemies and navigating unexpected alliances. This epic tale explores love, sacrifice, and the power of hope in a world on the brink of destruction.</TextDetail>
-                            <TextGenre data={genre} />
-                            <Button sx={{ mt: 5, textDecoration: 'none', px: 0, justifyContent: { xs: 'center', lg: 'left' } }}>Add To Favorite</Button>
-                        </Box>
-                    </Grid>
+                    {
+                        !isLoadingMovies && (
+                            <>
+                                <Grid item xs={12} lg={6} sx={{ justifyContent: { xs: 'center', lg: 'right' }, display: 'flex', alignItems: 'center' }}>
+                                    <CardDetails data={dataMovies?.poster_path} />
+                                </Grid>
+                                <Grid item xs={12} lg={6} sx={{ justifyContent: { xs: 'center', lg: 'left' }, display: 'flex', alignItems: { lg: 'center', xs: 'start' } }}>
+                                    <Box sx={{ width: '75%', height: '50%', padding: 0, display: 'flex', justifyContent: 'center', textAlign: { xs: 'center', lg: 'left' }, flexDirection: 'column', mt: 8 }}>
+                                        <TextDetail variant="h4">{dataMovies?.title}</TextDetail>
+                                        <TextRelease year={dataMovies?.release_date.split('-')[0]} season='2' origin={dataMovies?.spoken_languages[0]?.english_name} />
+                                        <TextDetail externalStyle={{ mt: 2 }} variant="h5">{dataMovies?.overview}</TextDetail>
+                                        <TextGenre data={dataMovies?.genres} />
+                                        <Button sx={{ mt: 5, textDecoration: 'none', px: 0, justifyContent: { xs: 'center', lg: 'left' } }}>Add To Favorite</Button>
+                                    </Box>
+                                </Grid>
+                            </>
+                        )
+                    }
                 </Grid>
             </Grid>
         </Grid >
