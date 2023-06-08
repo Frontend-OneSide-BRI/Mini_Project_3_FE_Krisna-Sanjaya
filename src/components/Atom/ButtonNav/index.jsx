@@ -2,6 +2,7 @@ import React from 'react'
 
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
+import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { styled } from '@mui/material/styles';
 import { Button } from '@mui/material';
@@ -25,9 +26,13 @@ export default function ButtonNav({ type }) {
                     <Item href='/gallery'>
                         <SearchOutlinedIcon sx={{ color: 'white' }} />
                     </Item >
-                ) : (
+                ) : type == 'logout' ? (
                     <Item href='/login'>
                         <LogoutIcon sx={{ color: 'white' }} />
+                    </Item >
+                ) : (
+                    <Item href='/favorite'>
+                        <BookmarkAddIcon sx={{ color: 'white' }} />
                     </Item >
                 )
             }

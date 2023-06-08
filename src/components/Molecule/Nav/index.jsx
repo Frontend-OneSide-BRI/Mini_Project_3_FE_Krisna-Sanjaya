@@ -10,6 +10,7 @@ export default function Nav() {
             <Stack spacing={5}>
                 <ButtonNav type='home' />
                 <ButtonNav type='gallery' />
+                <ButtonNav type='favorite' />
                 <ButtonNav type='logout' />
             </Stack>
         </Box>

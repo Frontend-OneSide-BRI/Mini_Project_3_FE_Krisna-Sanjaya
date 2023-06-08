@@ -1,3 +1,4 @@
 export { default as DetailPage } from './Detail'
 export { default as HomePage } from './Home'
 export { default as GalleryPage } from './Gallery'
+export { default as Favorite } from './Favorite'
