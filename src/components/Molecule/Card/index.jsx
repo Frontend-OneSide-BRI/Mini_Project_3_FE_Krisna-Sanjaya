@@ -8,6 +8,18 @@ import Typography from "@mui/material/Typography";
 import { Grid } from "@mui/material";
 import { useState } from "react";
 
+export function CardDetails() {
+  return (
+    <Card sx={{ width: { lg: "50%", xs: '80%' }, borderRadius: "14px", backgroundColor: 'black' }}>
+      <CardMedia
+        sx={{ height: { xs: '100vh', lg: '60vh' } }}
+        image="https://img1.hotstarext.com/image/upload/f_auto,q_90,w_384/sources/r1/cms/prod/9626/889626-v"
+        title="green iguana"
+      />
+    </Card>
+  );
+}
+
 export function CardMovies() {
   return (
     <Grid item xs={12} sm={6} md={4} lg={2} sx={{ mb: 2 }}>
