@@ -1,14 +1,15 @@
 import React from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import Home from '../Pages/Home/Index'
-import Gallery from '../Pages/Gallery/Index'
+import { DetailPage, GalleryPage, HomePage } from '../Pages'
+
 
 export default function Router() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/home' element=<Home /> />
-        <Route path='/gallery' element=<Gallery /> />
+        <Route path='/home' element=<HomePage /> />
+        <Route path='/gallery' element=<GalleryPage /> />
+        <Route path='/detail' element=<DetailPage /> />
       </Routes>
     </BrowserRouter>
   )
