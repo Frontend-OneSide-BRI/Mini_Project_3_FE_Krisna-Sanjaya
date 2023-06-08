@@ -9,7 +9,7 @@ export default function Router() {
       <Routes>
         <Route path='/home' element=<HomePage /> />
         <Route path='/gallery' element=<GalleryPage /> />
-        <Route path='/detail' element=<DetailPage /> />
+        <Route path='/detail/:id' element=<DetailPage /> />
       </Routes>
     </BrowserRouter>
   )
