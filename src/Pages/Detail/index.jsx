@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Box, Button, Grid, TextField, Typography } from '@mui/material'
 import CircleIcon from '@mui/icons-material/Circle';
@@ -8,8 +8,11 @@ import Nav from '../../components/Molecule/Nav';
 
 import { useParams } from 'react-router-dom';
 import { useGetMovieByIdQuery } from '../../service/Movies';
+import LayoutPage from '../../components/Organism/LayoutPage';
 
 export default function Detail() {
+
+    const [fav, setFav] = useState(null)
 
     const { id } = useParams();
 
@@ -40,33 +43,64 @@ export default function Detail() {
         )
     }
 
+    const handleAddFavorite = (data) => {
+        const ls = JSON.parse(localStorage.getItem('favorite')) ?? []
+        ls.push(data)
+        localStorage.setItem('favorite', JSON.stringify(ls))
+        checkFav()
+    }
+
+    const handleDeleteFavorite = () => {
+        const ls = JSON.parse(localStorage.getItem('favorite')) ?? []
+        const newData = ls.filter(item => item.id !== dataMovies.id)
+        localStorage.setItem('favorite', JSON.stringify(newData))
+        checkFav()
+    }
+
+    const checkFav = () => {
+        const ls = JSON.parse(localStorage.getItem('favorite')) ?? []
+        const isFav = ls.filter(item => item.id === dataMovies.id)
+        isFav.length === 0 ? setFav(false) : setFav(true)
+    }
+
+    useEffect(() => {
+        let flag = true
+
+        if (flag && !isLoadingMovies) {
+            checkFav()
+        }
+
+        return () => {
+            flag = false
+        }
+    }, [isLoadingMovies])
+
     return (
-        <Grid container sx={{ height: '100vh' }}>
-            <Grid xs={1} sx={{ backgroundColor: 'black', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Nav />
+        <LayoutPage>
+            <Grid container sx={{ backgroundColor: 'black', py: 4, display: 'flex', flexDirection: 'row', height: '100vh' }} spacing={10}>
+                {
+                    !isLoadingMovies && (
+                        <>
+                            <Grid item xs={12} lg={6} sx={{ justifyContent: { xs: 'center', lg: 'right' }, display: 'flex', alignItems: 'center' }}>
+                                <CardDetails data={dataMovies?.poster_path} />
+                            </Grid>
+                            <Grid item xs={12} lg={6} sx={{ justifyContent: { xs: 'center', lg: 'left' }, display: 'flex', alignItems: { lg: 'center', xs: 'start' } }}>
+                                <Box sx={{ width: '75%', height: '50%', padding: 0, display: 'flex', justifyContent: 'center', textAlign: { xs: 'center', lg: 'left' }, flexDirection: 'column', mt: 8 }}>
+                                    <TextDetail variant="h4">{dataMovies?.title}</TextDetail>
+                                    <TextRelease year={dataMovies?.release_date.split('-')[0]} season='2' origin={dataMovies?.spoken_languages[0]?.english_name} />
+                                    <TextDetail externalStyle={{ mt: 2, fontWeight: 300 }} variant="h5">{dataMovies?.overview}</TextDetail>
+                                    <TextGenre data={dataMovies?.genres} />
+                                    <Button onClick={() => fav ? handleDeleteFavorite() : handleAddFavorite(dataMovies)} sx={{ mt: 5, textDecoration: 'none', color: 'white', px: 0, justifyContent: { xs: 'center', lg: 'left' } }}>
+                                        {
+                                            fav ? 'Delete from Favorite' : 'Add to Favorite'
+                                        }
+                                    </Button>
+                                </Box>
+                            </Grid>
+                        </>
+                    )
+                }
             </Grid>
-            <Grid xs={11} sx={{ minHeight: '100vh' }}>
-                <Grid container sx={{ backgroundColor: 'black', py: 4, display: 'flex', flexDirection: 'row', height: '100vh' }} spacing={10}>
-                    {
-                        !isLoadingMovies && (
-                            <>
-                                <Grid item xs={12} lg={6} sx={{ justifyContent: { xs: 'center', lg: 'right' }, display: 'flex', alignItems: 'center' }}>
-                                    <CardDetails data={dataMovies?.poster_path} />
-                                </Grid>
-                                <Grid item xs={12} lg={6} sx={{ justifyContent: { xs: 'center', lg: 'left' }, display: 'flex', alignItems: { lg: 'center', xs: 'start' } }}>
-                                    <Box sx={{ width: '75%', height: '50%', padding: 0, display: 'flex', justifyContent: 'center', textAlign: { xs: 'center', lg: 'left' }, flexDirection: 'column', mt: 8 }}>
-                                        <TextDetail variant="h4">{dataMovies?.title}</TextDetail>
-                                        <TextRelease year={dataMovies?.release_date.split('-')[0]} season='2' origin={dataMovies?.spoken_languages[0]?.english_name} />
-                                        <TextDetail externalStyle={{ mt: 2, fontWeight: 300 }} variant="h5">{dataMovies?.overview}</TextDetail>
-                                        <TextGenre data={dataMovies?.genres} />
-                                        <Button sx={{ mt: 5, textDecoration: 'none', color: 'white', px: 0, justifyContent: { xs: 'center', lg: 'left' } }}>Add To Favorite</Button>
-                                    </Box>
-                                </Grid>
-                            </>
-                        )
-                    }
-                </Grid>
-            </Grid>
-        </Grid >
+        </LayoutPage>
     )
 }
