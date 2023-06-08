@@ -8,8 +8,9 @@ export default function Nav() {
     return (
         <Box sx={{ position: 'fixed' }}>
             <Stack spacing={5}>
-                <ButtonNav />
-                <ButtonNav isHome={false} />
+                <ButtonNav type='home' />
+                <ButtonNav type='gallery' />
+                <ButtonNav type='logout' />
             </Stack>
         </Box>
     )
